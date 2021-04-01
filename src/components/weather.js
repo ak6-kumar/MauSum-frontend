@@ -82,6 +82,12 @@ export default function Weather(){
             width: '100vw',
             height: '100vh',backgroundImage:`url(${bgImg.fogg})`}}>
             </div>:<></>}
+            {weather?.weather[0]?.main.toLowerCase().includes("smoke") || weather?.current?.weather_descriptions[0].toLowerCase().includes("storm")?<div style={{position:'relative', backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            width: '100vw',
+            height: '100vh',backgroundImage:`url(${bgImg.fogg})`}}>
+            </div>:<></>}
             <div style={{position:'absolute',left:'30%',top:'20px'}}>
                 <h1 className="col-md-12">Welcome to my Weather App</h1>
             </div>
