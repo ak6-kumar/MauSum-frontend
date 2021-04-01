@@ -40,12 +40,12 @@ export default function Weather(){
     const day = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     console.log(weather);
-    if(location?.error || weather?.error?.code){
-        return(
-        <div>
-            Something went wrong we'll try to fix it as soon as possible! :(
-        </div>)
-    }
+    // if(location?.error || weather?.error?.code){
+    //     return(
+    //     <div>
+    //         Something went wrong we'll try to fix it as soon as possible! :(
+    //     </div>)
+    // }
   return(
       <div>
           <div style={{position:'relative', backgroundPosition: 'center',
