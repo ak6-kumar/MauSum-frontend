@@ -29,7 +29,7 @@ export default function Weather(){
     },[]);
     useEffect(()=>{
         if(location){
-            axios.get(`http://api.weatherstack.com/current?access_key=c6205ad123bbd7a82325989de6e38057&query=${location?.latitude},${location?.longitude}`)
+            axios.get(`https://api.weatherstack.com/current?access_key=c6205ad123bbd7a82325989de6e38057&query=${location?.latitude},${location?.longitude}`)
             .then((res)=>{
                 setWeather(res.data);
             })
