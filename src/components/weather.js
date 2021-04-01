@@ -38,7 +38,7 @@ export default function Weather(){
     },[]);
     useEffect(()=>{
         if(location){
-            axios.get(`http://localhost:4000/weather?search=${location?.latitude},${location?.longitude}`)
+            axios.get(`http://weatherapp-env.eba-sqtgjpuz.ap-south-1.elasticbeanstalk.com/?search=${location?.latitude},${location?.longitude}`)
             .then((res)=>{
                 setWeather(res.data);
             })
