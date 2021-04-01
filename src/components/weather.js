@@ -5,16 +5,7 @@ const axios = require('axios');
 export default function Weather(){
     const [location,setLocation] = useState();
     const [weather,setWeather] = useState();
-    const [img,setImg] = useState("/cloudyDay.png");
-    // const setBgImg = (data)=>{
-    //     if(data=="Sunny"){
-    //         setImg(bgImg.sunny);
-    //     } else if (data==="Rainy") {
-    //         setImg(bgImg.rainy);
-    //     } else {
-    //         setImg(bgImg.cloudy);
-    //     }
-    // }
+    // const [img,setImg] = useState("/cloudyDay.png");
     const bgImg={
         cloudy:"/cloudyDay.png",
         fogg:"/foggyDay.png",
@@ -38,7 +29,7 @@ export default function Weather(){
     },[]);
     useEffect(()=>{
         if(location){
-            axios.get(`http://localhost:4000/weather?search=${location?.latitude},${location?.longitude}`)
+            axios.get(`http://localhost:4000?search=${location?.latitude},${location?.longitude}`)
             .then((res)=>{
                 setWeather(res.data);
             })
@@ -86,6 +77,12 @@ export default function Weather(){
             backgroundRepeat: 'no-repeat',
             width: '100vw',
             height: '100vh',backgroundImage:`url(${bgImg.storm})`}}>
+            </div>:<></>}
+            {weather?.current?.weather_descriptions[0].toLowerCase().includes("haze") || weather?.current?.weather_descriptions[0].toLowerCase().includes("storm")?<div style={{position:'relative', backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            width: '100vw',
+            height: '100vh',backgroundImage:`url(${bgImg.fogg})`}}>
             </div>:<></>}
             <div style={{position:'absolute',left:'30%',top:'20px'}}>
                 <h1 className="col-md-12">Welcome to my Weather App</h1>
