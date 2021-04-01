@@ -29,17 +29,15 @@ export default function Weather(){
     },[]);
     useEffect(()=>{
         if(location){
-            axios.get(`http://api.weatherstack.com/current?access_key=c6205ad123bbd7a82325989de6e38057&query=${location?.latitude},${location?.longitude}`)
+            axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=1a1167b623267365e878fcea7af93f26&units=metric`)
             .then((res)=>{
                 setWeather(res.data);
             })
         }
     },[location])
-    // console.log(weather?.current?.weather_descriptions[0]);
     const date = new Date();
     const day = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    console.log(weather);
     if(location?.error || weather?.error?.code){
         return(
         <div>
@@ -48,37 +46,37 @@ export default function Weather(){
     }
   return(
       <div>
-            {weather?.current?.weather_descriptions[0].toLowerCase().includes("sunny")?<div style={{position:'relative', backgroundPosition: 'center',
+            {weather?.weather[0]?.main.toLowerCase().includes("sunny")?<div style={{position:'relative', backgroundPosition: 'center',
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             width: '100vw',
             height: '100vh',backgroundImage:`url(${bgImg.sunny})`}}>
             </div>:<></>}
-            {weather?.current?.weather_descriptions[0].toLowerCase().includes("rain")?<div style={{position:'relative', backgroundPosition: 'center',
+            {weather?.weather[0]?.main.toLowerCase().includes("rain")?<div style={{position:'relative', backgroundPosition: 'center',
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             width: '100vw',
             height: '100vh',backgroundImage:`url(${bgImg.rainy})`}}>
             </div>:<></>}
-            {weather?.current?.weather_descriptions[0].toLowerCase().includes("cloudy")?<div style={{position:'relative', backgroundPosition: 'center',
+            {weather?.weather[0]?.main.toLowerCase().includes("cloud")?<div style={{position:'relative', backgroundPosition: 'center',
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             width: '100vw',
             height: '100vh',backgroundImage:`url(${bgImg.cloudy})`}}>
             </div>:<></>}
-            {weather?.current?.weather_descriptions[0].toLowerCase().includes("clear")?<div style={{position:'relative', backgroundPosition: 'center',
+            {weather?.weather[0]?.main.toLowerCase().includes("clear")?<div style={{position:'relative', backgroundPosition: 'center',
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             width: '100vw',
             height: '100vh',backgroundImage:`url(${bgImg.clear})`}}>
             </div>:<></>}
-            {weather?.current?.weather_descriptions[0].toLowerCase().includes("thunder") || weather?.current?.weather_descriptions[0].toLowerCase().includes("storm")?<div style={{position:'relative', backgroundPosition: 'center',
+            {weather?.weather[0]?.main.toLowerCase().includes("thunder") || weather?.current?.weather_descriptions[0].toLowerCase().includes("storm")?<div style={{position:'relative', backgroundPosition: 'center',
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             width: '100vw',
             height: '100vh',backgroundImage:`url(${bgImg.storm})`}}>
             </div>:<></>}
-            {weather?.current?.weather_descriptions[0].toLowerCase().includes("haze") || weather?.current?.weather_descriptions[0].toLowerCase().includes("storm")?<div style={{position:'relative', backgroundPosition: 'center',
+            {weather?.weather[0]?.main.toLowerCase().includes("haze") || weather?.current?.weather_descriptions[0].toLowerCase().includes("storm")?<div style={{position:'relative', backgroundPosition: 'center',
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             width: '100vw',
@@ -90,10 +88,10 @@ export default function Weather(){
             <div className="d-flex justify-content-center" style={{left:'36%',top:'20%',position:'absolute',blockSize:'400px',width:'400px',backgroundColor:'rgb(0,0,0,0.4)'}}>
                 <h3 className='mt-3' style={{fontFamily:'Roboto, sans-serif',color:'rgb(255,255,255)',position:'absolute'}}>{day[date.getDay()]}</h3>
                 <h3 className='mt-3' style={{top:'50px',fontFamily:'Roboto, sans-serif',color:'rgb(255,255,255)',position:'absolute'}}>{date.getDate()}&nbsp;{month[date.getMonth()]}&nbsp;{date.getFullYear()}</h3>
-                <h1 className='mt-3' style={{color:'rgb(255, 215, 1, 0.59)',fontFamily: 'Acme, sans-serif',textAlign:'center',left:'150px',fontSize:'100px',top:'100px',position:'absolute'}}><strong>{weather?.current?.temperature}</strong>°</h1>
-                <h2 className='mt-3' style={{color:'rgb(255,255,255)',position:'absolute',fontFamily:'Roboto, sans-serif',top:'230px'}}>{weather?.location?.name}, {weather?.location?.region}</h2>
+                <h1 className='mt-3' style={{color:'rgb(255, 215, 1, 0.59)',fontFamily: 'Acme, sans-serif',textAlign:'center',left:'150px',fontSize:'100px',top:'100px',position:'absolute'}}><strong>{Math.floor(weather?.main?.temp)}</strong>°</h1>
+                <h2 className='mt-3' style={{color:'rgb(255,255,255)',position:'absolute',fontFamily:'Roboto, sans-serif',top:'230px'}}>{weather?.name}</h2>
                 {/* <img style={{position:'absolute',top:'280px'}} src={weather?.current?.weather_icons[0]}></img> */}
-                <p className='mt-3' style={{color:'rgb(255,255,255)',position:'absolute',top:'310px',fontSize:'30px',fontFamily:'Roboto, sans-serif'}}>{weather?.current?.weather_descriptions[0]}</p>
+                <p className='mt-3' style={{color:'rgb(255,255,255)',position:'absolute',top:'310px',fontSize:'30px',fontFamily:'Roboto, sans-serif'}}>{weather?.weather[0]?.main}</p>
             </div>
             <div style={{position:'absolute',bottom:'10px',left:'440px'}}>
             © 2021 Weather Report Widget. All Rights Reserved | Design by sne3Zy | <a style={{color:'rgb(0,0,0)',textDecoration:'none'}} href="https://weatherstack.com">Weather Stack</a>
