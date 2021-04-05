@@ -4,6 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -15,8 +21,9 @@ ReactDOM.render(
 <link href="https://fonts.googleapis.com/css2?family=Acme&display=swap" rel="stylesheet"></link>
 <link rel="preconnect" href="https://fonts.gstatic.com"></link>
 <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"></link>
-
-    <App />
+  <Router>
+    <App/>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
