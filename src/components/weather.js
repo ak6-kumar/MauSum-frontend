@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect, useContext} from 'react';
 import Login from './feedback';
 import {
     BrowserRouter as Router,
@@ -6,15 +6,15 @@ import {
     Route,
     Link
   } from "react-router-dom";
-  
 const axios = require('axios');
 
 
 export default function Weather(){
     const [location,setLocation] = useState();
     const [weather,setWeather] = useState();
-    // const [img,setImg] = useState("/cloudyDay.png");
-    const bgImg={
+    const UserName = localStorage.getItem('UserName');
+    const authToken = localStorage.getItem('AuthToken');
+        const bgImg={
         cloudy:"/cloudyDay.png",
         fogg:"/foggyDay.png",
         rainy:"/rainyDay.png",
@@ -37,10 +37,14 @@ export default function Weather(){
     },[]);
     useEffect(()=>{
         if(location){
-            axios.get(`http://localhost:4000?lat=${location.latitude}&lon=${location.longitude}`)
+            axios.get(`/?lat=${location.latitude}&lon=${location.longitude}`,{headers:{
+                "Access-Control-Allow-Origin": "*"
+            }})
             .then((res)=>{
-                console.log("hello")    
-                setWeather(res.data);
+                setWeather(res?.data);
+            })
+            .catch((err)=>{
+                console.log(err);
             })
         }
     },[location])
@@ -53,7 +57,6 @@ export default function Weather(){
             Something went wrong we'll try to fix it as soon as possible! :(
         </div>)
     }
-    console.log(weather);
   return(
       <div>
           {/* <div style={{position:'relative', backgroundPosition: 'center',
@@ -105,8 +108,20 @@ export default function Weather(){
             height: '100vh',backgroundImage:`url(${bgImg.fogg})`}}>
             </div>:<></>}
             <div>
-            <Link style={{color:'black',textDecoration:'none'}} to="/feedback"><div style={{position:'absolute',left:'30px',top:'10px',backgroundColor:'rgb(144,233,144)',opacity:'0.9',borderRadius:'10px',blockSize:'30px',width:'100px'}}>Feedback</div></Link>
-            <Link style={{color:'black',textDecoration:'none'}} to="/login"><div style={{position:'absolute',right:'30px',top:'10px',backgroundColor:'rgb(144,233,144)',opacity:'0.9',borderRadius:'10px',blockSize:'30px',width:'100px'}}>Login</div></Link>
+            {authToken?<><Link style={{color:'black',textDecoration:'none'}} to="/feedback"><div style={{position:'absolute',left:'30px',top:'10px',backgroundColor:'rgb(144,233,144)',opacity:'0.9',borderRadius:'10px',blockSize:'30px',width:'100px'}}>Feedback</div></Link></>:<></>}
+            {
+            !authToken?
+            <><Link style={{color:'black',textDecoration:'none'}} to="/login"><div style={{position:'absolute',right:'30px',top:'10px',backgroundColor:'rgb(144,233,144)',opacity:'0.9',borderRadius:'10px',blockSize:'30px',width:'100px'}}>Login</div></Link>
+            <Link style={{color:'black',textDecoration:'none'}} to="/signin"><div style={{position:'absolute',right:'150px',top:'10px',backgroundColor:'rgb(144,233,144)',opacity:'0.9',borderRadius:'10px',blockSize:'30px',width:'100px'}}>Signin</div></Link>
+            </>:
+            <>
+                <div style={{position:'absolute',right:'30px',top:'10px',backgroundColor:'rgb(144,233,144)',opacity:'0.9',borderRadius:'10px',blockSize:'30px',width:'100px'}}>{UserName}</div>
+                <Link style={{color:'black',textDecoration:'none'}} to="/logout"><div onClick={()=>{
+                    localStorage.removeItem('AuthToken');
+                    localStorage.removeItem('UserName');
+                }} style={{position:'absolute',right:'150px',top:'10px',backgroundColor:'rgb(144,233,144)',opacity:'0.9',borderRadius:'10px',blockSize:'30px',width:'100px'}}>LogOut</div></Link>
+            </>
+            }
             </div>
             <div style={{position:'absolute',left:'39%',top:'20px'}}>
                 <h1 className="col-md-12">Weather Report</h1>
@@ -119,7 +134,7 @@ export default function Weather(){
                 <p className='mt-3' style={{color:'rgb(255,255,255)',position:'absolute',top:'310px',fontSize:'30px',fontFamily:'Roboto, sans-serif'}}>{weather?.weather[0]?.main}</p>
             </div>
             <div style={{position:'absolute',bottom:'10px',left:'440px',color:'rgb(0,0,0)'}}>
-            © 2021 Weather Report Widget. All Rights Reserved | Design by sne3Zy | <a style={{color:'rgb(0,0,0)',textDecoration:'none'}} href="https://openweathermap.org">Open Weather</a>
+            <strong>© 2021 Weather Report Widget. All Rights Reserved | Design by sne3Zy | </strong><a style={{color:'rgb(0,0,0)',textDecoration:'none'}} href="https://openweathermap.org"><strong>OpenWeather Map</strong></a>
             </div>
     </div>
     );

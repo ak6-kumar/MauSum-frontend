@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import { Redirect } from 'react-router';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -16,12 +18,14 @@ const useStyles = makeStyles((theme) => ({
 export default function Feedback(){
     const classes = useStyles();
     const [feedback,setFeedback] = useState({});
+    const data = localStorage.getItem('AuthToken');
     const AddFeedback = (e) =>{
-        axios.post('http://localhost:4000/feedback',{feedback})
+        axios.post('/feedback',{feedback})
         .then((res)=>{
             console.log(res);
         })
         .catch((err)=>{
+            alert("Feedback couldn't be added user not logged in!")
             console.log(err);
         })
         document.querySelectorAll('#outlined-basic')[0].value='';
@@ -30,6 +34,8 @@ export default function Feedback(){
     }
     // console.log(feedback);
     return(
+        <>
+        {data?
         <div>
                 <h2 className="mt-2">Feedback Page</h2>
                 <div style={{marginLeft:'560px',marginTop:'50px',backgroundColor:'#f8f8ff',width:'400px',blockSize:'450px'}}>
@@ -53,6 +59,8 @@ export default function Feedback(){
                     </Button>
                     </div>
                 </div>
-        </div>
+        </div>:<Redirect to="/"/>
+}
+        </>
     )
 }

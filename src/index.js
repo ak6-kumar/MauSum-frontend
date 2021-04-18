@@ -10,6 +10,19 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import axios from 'axios';
+    const authToken = localStorage.getItem('AuthToken');
+    axios.defaults.baseURL = 'http://localhost:4000';
+    axios.defaults.headers.common['Authorization'] = authToken;
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
+
+    axios.interceptors.request.use(request => {
+        // Edit request config
+        return request;
+    }, error => {
+        console.log(error);
+        return Promise.reject(error);
+    });
 
 ReactDOM.render(
   <React.StrictMode>
@@ -21,14 +34,11 @@ ReactDOM.render(
 <link href="https://fonts.googleapis.com/css2?family=Acme&display=swap" rel="stylesheet"></link>
 <link rel="preconnect" href="https://fonts.gstatic.com"></link>
 <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"></link>
-  <Router>
-    <App/>
-    </Router>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <Router>
+      <App/> 
+      </Router>
+  </React.StrictMode>
+  ,document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
